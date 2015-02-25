@@ -57,7 +57,7 @@ start() {
 
         if [ "$DOCKER_TLS" == "auto" ]; then
             DOCKER_HOST='-H tcp://0.0.0.0:2376'
-            EXTRA_ARGS="$EXTRA_ARGS --tlsverify --tlscacert=$CACERT --tlscert=$SERVERCERT --tlskey=$SERVERKEY"
+            EXTRA_ARGS="$EXTRA_ARGS --tls --tlscacert=$CACERT --tlscert=$SERVERCERT --tlskey=$SERVERKEY"
         elif [ "$DOCKER_TLS" != "no" ]; then
             EXTRA_ARGS="$EXTRA_ARGS $DOCKER_TLS --tlscacert=$CACERT --tlscert=$SERVERCERT --tlskey=$SERVERKEY"
         fi
@@ -93,8 +93,8 @@ start() {
     ulimit -p $DOCKER_ULIMITS
 
     echo "------------------------" >> "$DOCKER_LOGFILE"
-    echo "/usr/local/bin/docker -d -D -g \"$DOCKER_DIR\" -H unix:// $DOCKER_HOST $EXTRA_ARGS >> \"$DOCKER_LOGFILE\"" >> "$DOCKER_LOGFILE"
-    /usr/local/bin/docker -d -D -g "$DOCKER_DIR" -H unix:// $DOCKER_HOST $EXTRA_ARGS >> "$DOCKER_LOGFILE" 2>&1 &
+    echo "/usr/local/bin/docker -d --api-enable-cors="https://colmena.io" -D  -g \"$DOCKER_DIR\" -H unix:// $DOCKER_HOST $EXTRA_ARGS >> \"$DOCKER_LOGFILE\"" >> "$DOCKER_LOGFILE"
+    /usr/local/bin/docker -d --api-enable-cors="https://colmena.io" -D -g "$DOCKER_DIR" -H unix:// $DOCKER_HOST $EXTRA_ARGS >> "$DOCKER_LOGFILE" 2>&1 &
 }
 
 stop() {
